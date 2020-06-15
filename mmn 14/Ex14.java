@@ -62,15 +62,15 @@ public class Ex14{
         int biggestNum3 = 0;
         
         for (int i = 0; i < arr.length; i++){
-            
-            if (arr[i] > biggestNum3){
+
+            if ((arr[i] > 0) && (arr[i] > biggestNum3)){
                 if (arr[i] > biggestNum2) {
                     if (arr[i] > biggestNum1){
                         biggestNum3 = biggestNum2;
                         biggestNum2 = biggestNum1;
                         biggestNum1 = arr[i];
                     }
-                    else{
+                    else {
                         biggestNum3 = biggestNum2;
                         biggestNum2 = arr[i];
                     }
@@ -78,7 +78,7 @@ public class Ex14{
                 else
                     biggestNum3 = arr[i];
             }
-            if (arr[i] < smallestNum2){
+            else if ((arr[i] < 0) && (arr[i] < smallestNum2)){
                 if (arr[i] < smallestNum1){
                     smallestNum2 = smallestNum1;
                     smallestNum1 = arr[i];
@@ -95,5 +95,6 @@ public class Ex14{
             System.out.println(smallestNum1 + " " + smallestNum2 + " " + biggestNum1);
             return (smallestNum1 * smallestNum2 * biggestNum1);
         }
+
     }
 }
