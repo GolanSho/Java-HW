@@ -97,4 +97,65 @@ public class Ex14{
         }
 
     }
+
+    public static int count (String str, String pattern){
+        
+        return count(str, pattern, 0, 0, 0);
+    }
+
+    private static int count (String str, String pattern, int strPos, int patternPos, int count){
+        
+        int charMatched = 0;
+        int patternPosAdd = 1;
+
+        if (charMatched == pattern.length() -1){
+            count += 1;
+            return count;
+        }
+        else if (strPos == str.length() -1)
+            return count;
+        else
+            if (str.charAt(strPos) == pattern.charAt(patternPos))
+                charMatched += 1;
+            if (patternPos == pattern.length() -1)
+                patternPosAdd = 0;
+            return (count(str, pattern, strPos + 1, patternPos, count) + count(str, pattern, strPos + 1, patternPos + patternPosAdd, count));
+    }
+    
+    public static int prince(int[][] drm, int i, int j){
+        return prince(drm, i, j, 0);
+    }
+    private static int prince(int[][] drm, int i, int j, int counter){
+
+        if (i < 0 || i >= drm.length && j >= drm[i].length)
+            return -1;
+        else if (j >= drm[i].length)
+            return prince(drm, i+1, 0, counter);
+        else if (drm[i][j] == -1){
+            counter++;
+            return counter;
+        }
+        else
+            if (j+1 < drm[i].length && ((drm[i][j] == drm[i][j+1]) || (drm[i][j] + 1 == drm[i][j+1]) || (drm[i][j] -1 == drm[i][j+1]) || (drm[i][j] -2 == drm[i][j+1]) || drm[i][j+1] == -1)){
+                counter++;
+                return prince(drm, i, j+1, counter);
+            }
+            else if  (i+1 < drm.length && ((drm[i][j] == drm[i+1][j]) || (drm[i][j] + 1 == drm[i+1][j]) || (drm[i][j] -1 == drm[i+1][j]) || (drm[i][j] -2 == drm[i+1][j]) || drm[i+1][j] == -1)){
+                counter++;
+                return prince(drm, i+1, j, counter);
+            }
+            else if  (j > 0 && ((drm[i][j] == drm[i][j-1]) || (drm[i][j] + 1 == drm[i][j-1]) || (drm[i][j] -1 == drm[i][j-1]) || (drm[i][j] -2 == drm[i][j-1]) || drm[i][j-1] == -1)){
+                counter++;
+                return prince(drm, i, j-1, counter);
+            }
+            else if  (i > 0 && ((drm[i][j] == drm[i-1][j]) || (drm[i][j] + 1 == drm[i-1][j]) || (drm[i][j] -1 == drm[i-1][j]) || (drm[i][j] -2 == drm[i-1][j]) || drm[i-1][j] == -1)){
+                counter++;
+                return prince(drm, i-1, j, counter);
+            }
+            else {
+                counter++;
+                return prince(drm, i, j+1, counter);
+            }
+    }
+
 }
