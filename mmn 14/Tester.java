@@ -11,14 +11,14 @@ public class Tester {
         
     //    System.out.println(Ex14.findTriplet(triple2));
 
-    //    System.out.println(Ex14.count("ABDEFCBC", "ABC"));
+        System.out.println(Ex14.count("subsequence", "sue"));
 
-        int[][] drm = { {2,0,1,2,3},
+    /*    int[][] drm = { {2,0,1,2,3},
                         {2,3,5,5,4},
                         {8,-1,6,8,7},
                         {3,4,7,2,4},
                         {2,4,3,1,2}};
-        System.out.println(drm.length) ;   
+        System.out.println(drm.length) ;*/   
     //    System.out.println(Ex14.prince(drm, 0, 0));
     }
 }

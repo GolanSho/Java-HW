@@ -103,23 +103,20 @@ public class Ex14{
         return count(str, pattern, 0, 0, 0);
     }
 
-    private static int count (String str, String pattern, int strPos, int patternPos, int count){
+    private static int count (String str, String pattern, int strPos, int patternPos, int counter){
         
-        int charMatched = 0;
-        int patternPosAdd = 1;
-
-        if (charMatched == pattern.length() -1){
-            count += 1;
-            return count;
+        if (patternPos == pattern.length()){
+            counter ++;
+            return counter;
         }
-        else if (strPos == str.length() -1)
-            return count;
+        else if (strPos == str.length())
+            return counter;
         else
-            if (str.charAt(strPos) == pattern.charAt(patternPos))
-                charMatched += 1;
-            if (patternPos == pattern.length() -1)
-                patternPosAdd = 0;
-            return (count(str, pattern, strPos + 1, patternPos, count) + count(str, pattern, strPos + 1, patternPos + patternPosAdd, count));
+            if (str.charAt(strPos) == pattern.charAt(patternPos)){
+                return (count(str, pattern, strPos + 1, patternPos, counter) + count(str, pattern, strPos + 1, patternPos + 1, counter));
+            }
+            else
+                return (count(str, pattern, strPos + 1, patternPos, counter));
     }
     
     public static int prince(int[][] drm, int i, int j){
