@@ -120,7 +120,7 @@ public class Ex14{
     }
     
     public static int prince(int[][] drm, int i, int j){
-        return prince(drm, i, j, 0);
+        return prince(drm, i, j, 1);
     }
     private static int prince(int[][] drm, int i, int j, int counter){
             
@@ -129,6 +129,9 @@ public class Ex14{
         int iStep = 1;
         int iBack = 1;
         
+        if (drm[i][j] == -1)
+            return counter;
+      
         if (j == drm[i].length -1)
             jStep = 0;
         else if (j == 0)
@@ -138,11 +141,10 @@ public class Ex14{
         else if (i == 0)
             iBack = 0;
         
-        if (i < 0 || i >= drm.length || j >= drm[i].length || j < 0)
+        if (i >= drm.length && j >= drm[i].length || (i < 0 || j < 0) || drm[i][j] == -5)
             return -1;
-        else if (drm[i][j] == -2)
-            return -1;
-        else if (drm[i][j+jStep] == -1 || drm[i][j-jBack] == -1 || drm[i+iStep][j] == -1 || drm[i-iBack][j] == -1){
+            
+        if (drm[i][j+jStep] == -1 || drm[i][j-jBack] == -1 || drm[i+iStep][j] == -1 || drm[i-iBack][j] == -1){
             counter++;
             return counter;
         }
@@ -150,25 +152,49 @@ public class Ex14{
             counter++;
             int saveValue = drm[i][j];
             
+            if (jStep != 0 && !(drm[i][j+jStep] >= drm[i][j] -2 && drm[i][j+jStep] <= drm[i][j] +1)){
+                jStep = 0;
+            }
+            if  (jBack != 0 && !(drm[i][j-jBack] >= drm[i][j] -2 && drm[i][j-jBack] <= drm[i][j] +1)){
+                jBack = 0;
+            }
+            if  (iStep != 0 && !(drm[i+iStep][j] >= drm[i][j] -2 && drm[i+iStep][j] <= drm[i][j] +1)){
+                iStep = 0;
+            }
+            if  (iBack != 0 && !(drm[i-iBack][j] >= drm[i][j] -2 && drm[i-iBack][j] <= drm[i][j] +1)){
+                iBack = 0;
+            }
             
-            if (jStep != 0 && ((drm[i][j] == drm[i][j+jStep]) || (drm[i][j] + 1 == drm[i][j+jStep]) || (drm[i][j] -1 == drm[i][j+jStep]) || (drm[i][j] -2 == drm[i][j+jStep]))){
-                drm[i][j] = -2;
-                return prince(drm, i, j+jStep, counter);
-            }
-            if  (iStep != 0 && ((drm[i][j] == drm[i+iStep][j]) || (drm[i][j] + 1 == drm[i+iStep][j]) || (drm[i][j] -1 == drm[i+iStep][j]) || (drm[i][j] -2 == drm[i+iStep][j]))){
-                drm[i][j] = -2;
-                return prince(drm, i+iStep, j, counter);
-            }
-            if  (jBack != 0 && ((drm[i][j] == drm[i][j-jBack]) || (drm[i][j] + 1 == drm[i][j-jBack]) || (drm[i][j] -1 == drm[i][j-jBack]) || (drm[i][j] -2 == drm[i][j-jBack]))){
-                drm[i][j] = -2;
-                return prince(drm, i, j-jBack, counter);
-            }
-            if  (iBack != 0 && ((drm[i][j] == drm[i-iBack][j]) || (drm[i][j] + 1 == drm[i-iBack][j]) || (drm[i][j] -1 == drm[i-iBack][j]) || (drm[i][j] -2 == drm[i-iBack][j]))){
-                drm[i][j] = -2;
-                return prince(drm, i-iBack, j, counter);
-            }
+            drm[i][j] = -5;
+            int minSteps = minFind(prince(drm, i, j+jStep, counter),
+                                   prince(drm, i, j-jBack, counter),
+                                   prince(drm, i+iStep, j, counter),
+                                   prince(drm, i-iBack, j, counter));
             drm[i][j] = saveValue;
-            return -1;
+            return minSteps;
         }
+    }
+    private static int minFind(int opt1, int opt2, int opt3, int opt4){
+        int min1;
+        int min2;
+        
+        if (opt1 == -1)
+            min1 = opt2;
+        else if (opt2 == -1)
+            min1 = opt1;
+        else
+            min1 = Math.min(opt1, opt2);
+        if (opt3 == -1)
+            min2 = opt4;
+        else if (opt4 == -1)
+            min2 = opt3;
+        else
+            min2 = Math.min(opt3, opt4);
+        if (min1 == -1)
+            return min2;
+        else if (min2 == -1)
+            return min1;
+        else
+            return(Math.min(min1, min2));
     }
 }
