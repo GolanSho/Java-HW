@@ -1,4 +1,3 @@
-import sun.net.www.content.text.plain;
 
 class Polygone {
     private PointNode _head;
@@ -11,18 +10,20 @@ class Polygone {
         if(pos <= 0 || pos > listLength()+1)
             return false;
 
+        PointNode node = new PointNode(p);
+
         if(_head == null)
-            _head = p;
+            _head = node;
         else {
             int counter = 1;
             PointNode ptr = _head;
 
-            while (ptr.getNext( ) != null || counter < pos)
+            while (ptr.getNext( ) != null || counter < pos){
                 ptr = ptr.getNext( );
                 counter++;
-            PointNode tmp = ptr.getNext();
-            ptr.getNext().setPoint(p);
-            ptr.getNext().setNext(tmp);
+            }
+            node.setNext(ptr.getNext());
+            ptr.setNext(node);
         }
         return true;
     }
@@ -94,5 +95,5 @@ class Polygone {
         return calcPerimeter(ptr.getNext(), perimeter);
     }
 
-    
+
 }
