@@ -1,8 +1,8 @@
 
-class Polygone {
+class Polygon {
     private PointNode _head;
 
-    public Polygone() {
+    public Polygon() {
         _head = null;
     }
 
@@ -18,8 +18,8 @@ class Polygone {
             int counter = 1;
             PointNode ptr = _head;
 
-            while (ptr.getNext( ) != null || counter < pos){
-                ptr = ptr.getNext( );
+            while (counter < pos){
+                ptr = ptr.getNext();
                 counter++;
             }
             node.setNext(ptr.getNext());
@@ -28,6 +28,7 @@ class Polygone {
         return true;
     }
 
+    
     private int listLength() {
         PointNode ptr = _head;
         int length = 0;
@@ -41,9 +42,8 @@ class Polygone {
     public Point highestVertex(){
         if(_head == null)
             return null;
-        PointNode ptr = _head;
         
-        return highestVertex(ptr, ptr.getPoint());
+        return highestVertex(_head, _head.getPoint());
     }
 
     private Point highestVertex(PointNode ptr, Point highest){
@@ -78,12 +78,13 @@ class Polygone {
         int length = listLength();
         PointNode ptr = _head;
 
-        if(length >= 0 && length < 3)
+        if(length >= 0 && length < 3){
             if (length == 2)
                 return ptr.getPoint().distance(ptr.getNext().getPoint());
             return 0;
-
-        return calcPerimeter(ptr, 0);
+        }
+        else
+            return calcPerimeter(ptr, 0);
     }
 
     private double calcPerimeter(PointNode ptr, double perimeter){
@@ -95,5 +96,58 @@ class Polygone {
         return calcPerimeter(ptr.getNext(), perimeter);
     }
 
+    public double calcArea(){
+        return 0.0;
+    }
 
+    public boolean isBigger(Polygon other){
+        return (this.calcArea() > other.calcArea()); 
+    }
+
+    public int findVertex(Point p){
+        return findVertex(p, _head);   
+    }
+
+    public int findVertex(Point p, PointNode ptr){
+        if(ptr == null)
+            return -1;
+        
+        if(ptr.getPoint().equals(p))
+            return 1;
+        else
+            return 1 + findVertex(p, ptr);
+    }
+
+    private PointNode findNode(int pos){
+        PointNode ptr = _head;
+        int counter = 1;
+
+        while(counter < pos){
+            ptr = ptr.getNext();
+        }
+
+        return ptr;
+    }
+
+    public Point getNextVertex(Point p){
+        int pointPos = findVertex(p);
+        int length = listLength();
+
+        if(pointPos == -1)
+            return null;
+        else if(pointPos == 1){
+            if(length == 1)
+                return new Point(p);
+            else
+                return new Point(_head.getNext().getPoint());
+        }
+        else if (pointPos == length)
+            return new Point(_head.getPoint());
+        else
+            return new Point(findNode(pointPos).getNext().getPoint());
+    }
+
+    public Polygon getBoundingBox(){
+        return null;
+    }
 }
